@@ -74,11 +74,11 @@ client.on('message', m => {
 
             case 'update':
                 cctsAPI.get(`/users/${m.author.id}`).then(response => {
-                    if (response.data.username === m.author.username) {
-                        return m.channel.send('Username already up to date! Nice!')
+                    if (response.data.username == m.author.username) {
+                        m.channel.send('Username already up to date! Nice!')
                     }
                     else {
-                        cctsAPI.patch(`/users/${m.author.id}`, m.author.username).then(res => {
+                        cctsAPI.patch(`/users/${m.author.id}`, {username: m.author.username}).then(res => {
                             return m.channel.send(`${response.data.username} shall now be known as ${res.data.username}`)
                         }).catch(function (error) {
                             if (error.response) {
@@ -111,6 +111,7 @@ client.on('message', m => {
                     }
                     console.log(error.config);
                 });
+                return;
 
             case 'help':
                 botResponse = new Discord.RichEmbed()
