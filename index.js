@@ -11,8 +11,31 @@ client.on('ready', () => {
 })
 
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
+// Otherwise the bot will check if the user is registered and if not register them.
 client.on('message', m => {
     if (!m.content.startsWith(process.env.PREFIX)) {
+        cctsAPI.get(`/users/${m.author.id}`).then(response => {
+            if (response.data == []) {
+                cctsAPI.post('/users', { user_id: m.author.id, username: m.author.username, points: 1 })
+                    .then(res => {
+                        m.channel.send(`Congratulations ${res.data.username}! You have been noticed by ${client.user.username}.`)
+                    }).catch(function (error) {
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            console.log(error.request);
+                        } else {
+                            // Something happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+            }
+        })
         return
     }
     else {
@@ -78,7 +101,7 @@ client.on('message', m => {
                         m.channel.send('Username already up to date! Nice!')
                     }
                     else {
-                        cctsAPI.patch(`/users/${m.author.id}`, {username: m.author.username}).then(res => {
+                        cctsAPI.patch(`/users/${m.author.id}`, { username: m.author.username }).then(res => {
                             return m.channel.send(`${response.data.username} shall now be known as ${res.data.username}`)
                         }).catch(function (error) {
                             if (error.response) {
