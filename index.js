@@ -10,6 +10,14 @@ client.on('ready', () => {
     console.log('Ready!');
 })
 
+http.createServer((req, res) => {
+    res.writeHead(200, {
+        'Content-type': 'text/plain'
+    });
+    res.write('Hey');
+    res.end();
+}).listen(4000);
+
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
 client.on('message', m => {
