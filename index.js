@@ -18,6 +18,7 @@ client.on('ready', () => {
 client.on('message', m => {
 
     m.channel.send("Boo")
+    if (m.author.bot){return console.log('ah its a bot!')}
     // if (!m.content.startsWith(process.env.PREFIX)) {
     //     cctsAPI.get(`/users/${m.author.id}`).then(response => {
     //         if (response.data == []) {
