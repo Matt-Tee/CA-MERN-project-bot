@@ -3,20 +3,15 @@ const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.c
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var botResponse = new Discord.RichEmbed();
+const express = require('express')
+const app = express()
+
+app.listen(process.env.PORT)
 
 // Bot fails to opperate before this ready acknowledgement
 client.on('ready', () => {
     console.log('Ready!');
 })
-
-// Useless server to trick heroku into actually working
-http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-type': 'text/plain'
-    });
-    res.write('Hey');
-    res.end();
-}).listen(process.env.PORT);
 
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
