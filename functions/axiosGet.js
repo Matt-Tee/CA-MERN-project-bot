@@ -2,7 +2,7 @@ const axios = require('axios');
 const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
 
 module.exports.axiosGet = async (id) => {
-    cctsAPI.get(`/users/${id}`).then(response => {
+    const result = cctsAPI.get(`/users/${id}`).then(response => {
         return response.data
     }).catch(function (error) {
         if (error.response) {
@@ -19,4 +19,5 @@ module.exports.axiosGet = async (id) => {
         }
         console.log(error.config);
     });
+    return result;
 }
