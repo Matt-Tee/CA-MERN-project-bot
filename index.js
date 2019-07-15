@@ -9,6 +9,7 @@ client.on('ready', () => {
     console.log('Ready!');
 })
 
+// Useless server to trick heroku into actually working
 http.createServer((req, res) => {
     res.writeHead(200, {
         'Content-type': 'text/plain'
