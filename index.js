@@ -1,9 +1,12 @@
-require('dotenv').config()
 const axios = require('axios');
 const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var botResponse = new Discord.RichEmbed();
+const express = require('express')
+const app = express()
+
+app.listen(process.env.PORT)
 
 // Bot fails to opperate before this ready acknowledgement
 client.on('ready', () => {
@@ -13,6 +16,8 @@ client.on('ready', () => {
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
 client.on('message', m => {
+    if (m.author.bot) { return }
+
     if (!m.content.startsWith(process.env.PREFIX)) {
         cctsAPI.get(`/users/${m.author.id}`).then(response => {
             if (response.data == []) {
