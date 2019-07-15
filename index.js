@@ -16,7 +16,7 @@ client.on('ready', () => {
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
 client.on('message', m => {
-    if (m.author.bot) { return console.log('ah its a bot!') }
+    if (m.author.bot) { return }
 
     if (!m.content.startsWith(process.env.PREFIX)) {
         cctsAPI.get(`/users/${m.author.id}`).then(response => {
