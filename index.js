@@ -16,148 +16,147 @@ client.on('ready', () => {
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
 client.on('message', m => {
-    if (m.author.bot){return console.log('ah its a bot!')}
-        if (m.content.startsWith(process.env.PREFIX)){ return console.log('as you wish.')}
-    
-    // if (!m.content.startsWith(process.env.PREFIX)) {
-    //     cctsAPI.get(`/users/${m.author.id}`).then(response => {
-    //         if (response.data == []) {
-    //             cctsAPI.post('/users', { user_id: m.author.id, username: m.author.username, points: 1 })
-    //                 .then(res => {
-    //                     m.channel.send(`Congratulations ${res.data.username}! You have been noticed by ${client.user.username}.`)
-    //                 }).catch(function (error) {
-    //                     if (error.response) {
-    //                         // The request was made and the server responded with a status code
-    //                         console.log(error.response.data);
-    //                         console.log(error.response.status);
-    //                         console.log(error.response.headers);
-    //                     } else if (error.request) {
-    //                         // The request was made but no response was received
-    //                         console.log(error.request);
-    //                     } else {
-    //                         // Something happened in setting up the request that triggered an Error
-    //                         console.log('Error', error.message);
-    //                     }
-    //                     console.log(error.config);
-    //                 });
-    //         }
-    //     })
-    //     return
-    // }
-    // else {
-    //     // Seperating the user message into meaningful chunks 
-    //     mArray = m.content.split(" ")
-    //     mCommand = mArray[0].slice(1)
-    //     mArguments = mArray.slice(1)
+    if (m.author.bot) { return console.log('ah its a bot!') }
 
-    //     // Process user message and respond accordingly
-    //     switch (mCommand) {
-    //         case 'botinfo':
-    //             botResponse = new Discord.RichEmbed()
-    //                 .setDescription('Bot Information')
-    //                 .setColor("#FFFFFF")
-    //                 .addField("Bot Name", client.user.username);
-    //             return m.channel.send(botResponse);
+    if (!m.content.startsWith(process.env.PREFIX)) {
+        cctsAPI.get(`/users/${m.author.id}`).then(response => {
+            if (response.data == []) {
+                cctsAPI.post('/users', { user_id: m.author.id, username: m.author.username, points: 1 })
+                    .then(res => {
+                        m.channel.send(`Congratulations ${res.data.username}! You have been noticed by ${client.user.username}.`)
+                    }).catch(function (error) {
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            console.log(error.request);
+                        } else {
+                            // Something happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+            }
+        })
+        return
+    }
+    else {
+        // Seperating the user message into meaningful chunks 
+        mArray = m.content.split(" ")
+        mCommand = mArray[0].slice(1)
+        mArguments = mArray.slice(1)
 
-    //         case 'register':
-    //             cctsAPI.post('/users', { user_id: m.author.id, username: m.author.username, points: 0 })
-    //                 .then(response => {
-    //                     m.channel.send(`Congratulations ${response.data.username}! You have successfully registered for the community points program.`)
-    //                 })
-    //                 .catch(function (error) {
-    //                     if (error.response) {
-    //                         // The request was made and the server responded with a status code
-    //                         console.log(error.response.data);
-    //                         console.log(error.response.status);
-    //                         console.log(error.response.headers);
-    //                     } else if (error.request) {
-    //                         // The request was made but no response was received
-    //                         console.log(error.request);
-    //                     } else {
-    //                         // Something happened in setting up the request that triggered an Error
-    //                         console.log('Error', error.message);
-    //                     }
-    //                     console.log(error.config);
-    //                 });
-    //             return;
+        // Process user message and respond accordingly
+        switch (mCommand) {
+            case 'botinfo':
+                botResponse = new Discord.RichEmbed()
+                    .setDescription('Bot Information')
+                    .setColor("#FFFFFF")
+                    .addField("Bot Name", client.user.username);
+                return m.channel.send(botResponse);
 
-    //         case 'points':
-    //             cctsAPI.get(`/users/${m.author.id}`).then(response => {
-    //                 m.channel.send(`${m.author.username}, you have ${response.data.points} points!`)
-    //             }).catch(function (error) {
-    //                 if (error.response) {
-    //                     // The request was made and the server responded with a status code
-    //                     console.log(error.response.data);
-    //                     console.log(error.response.status);
-    //                     console.log(error.response.headers);
-    //                 } else if (error.request) {
-    //                     // The request was made but no response was received
-    //                     console.log(error.request);
-    //                 } else {
-    //                     // Something happened in setting up the request that triggered an Error
-    //                     console.log('Error', error.message);
-    //                 }
-    //                 console.log(error.config);
-    //             });
-    //             return;
+            case 'register':
+                cctsAPI.post('/users', { user_id: m.author.id, username: m.author.username, points: 0 })
+                    .then(response => {
+                        m.channel.send(`Congratulations ${response.data.username}! You have successfully registered for the community points program.`)
+                    })
+                    .catch(function (error) {
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            console.log(error.request);
+                        } else {
+                            // Something happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+                return;
 
-    //         case 'update':
-    //             cctsAPI.get(`/users/${m.author.id}`).then(response => {
-    //                 if (response.data.username == m.author.username) {
-    //                     m.channel.send('Username already up to date! Nice!')
-    //                 }
-    //                 else {
-    //                     cctsAPI.patch(`/users/${m.author.id}`, { username: m.author.username }).then(res => {
-    //                         return m.channel.send(`${response.data.username} shall now be known as ${res.data.username}`)
-    //                     }).catch(function (error) {
-    //                         if (error.response) {
-    //                             // The request was made and the server responded with a status code
-    //                             console.log(error.response.data);
-    //                             console.log(error.response.status);
-    //                             console.log(error.response.headers);
-    //                         } else if (error.request) {
-    //                             // The request was made but no response was received
-    //                             console.log(error.request);
-    //                         } else {
-    //                             // Something happened in setting up the request that triggered an Error
-    //                             console.log('Error', error.message);
-    //                         }
-    //                         console.log(error.config);
-    //                     });
-    //                 }
-    //             }).catch(function (error) {
-    //                 if (error.response) {
-    //                     // The request was made and the server responded with a status code
-    //                     console.log(error.response.data);
-    //                     console.log(error.response.status);
-    //                     console.log(error.response.headers);
-    //                 } else if (error.request) {
-    //                     // The request was made but no response was received
-    //                     console.log(error.request);
-    //                 } else {
-    //                     // Something happened in setting up the request that triggered an Error
-    //                     console.log('Error', error.message);
-    //                 }
-    //                 console.log(error.config);
-    //             });
-    //             return;
+            case 'points':
+                cctsAPI.get(`/users/${m.author.id}`).then(response => {
+                    m.channel.send(`${m.author.username}, you have ${response.data.points} points!`)
+                }).catch(function (error) {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
+                return;
 
-    //         case 'help':
-    //             botResponse = new Discord.RichEmbed()
-    //                 .setDescription('Valid Commands')
-    //                 .setColor("#FFFFFF")
-    //                 .addField(`${process.env.PREFIX}botinfo`, "Displays detailed information about the bot in use.")
-    //                 .addField(`${process.env.PREFIX}points`, 'Displays the number of community contribution points acumulated.')
-    //                 .addField(`${process.env.PREFIX}register`, 'Registers the user for community points program.')
-    //                 .addField(`${process.env.PREFIX}update`, 'Updates the users name in the CCTS. Please use this if you have recently changed your name recently as the bot has a good memory and bad people skills.')
-    //                 .addField(`${process.env.PREFIX}help`, 'Displays this helpful little list of commands for the uninitiated.');
+            case 'update':
+                cctsAPI.get(`/users/${m.author.id}`).then(response => {
+                    if (response.data.username == m.author.username) {
+                        m.channel.send('Username already up to date! Nice!')
+                    }
+                    else {
+                        cctsAPI.patch(`/users/${m.author.id}`, { username: m.author.username }).then(res => {
+                            return m.channel.send(`${response.data.username} shall now be known as ${res.data.username}`)
+                        }).catch(function (error) {
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            } else if (error.request) {
+                                // The request was made but no response was received
+                                console.log(error.request);
+                            } else {
+                                // Something happened in setting up the request that triggered an Error
+                                console.log('Error', error.message);
+                            }
+                            console.log(error.config);
+                        });
+                    }
+                }).catch(function (error) {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
+                return;
 
-    //             return m.channel.send(botResponse);
+            case 'help':
+                botResponse = new Discord.RichEmbed()
+                    .setDescription('Valid Commands')
+                    .setColor("#FFFFFF")
+                    .addField(`${process.env.PREFIX}botinfo`, "Displays detailed information about the bot in use.")
+                    .addField(`${process.env.PREFIX}points`, 'Displays the number of community contribution points acumulated.')
+                    .addField(`${process.env.PREFIX}register`, 'Registers the user for community points program.')
+                    .addField(`${process.env.PREFIX}update`, 'Updates the users name in the CCTS. Please use this if you have recently changed your name recently as the bot has a good memory and bad people skills.')
+                    .addField(`${process.env.PREFIX}help`, 'Displays this helpful little list of commands for the uninitiated.');
 
-    //         default:
-    //             return m.channel.send(`Not a valid bot request, type ${process.env.PREFIX}help for a list of valid commands.`)
-    //     }
-    // }
+                return m.channel.send(botResponse);
+
+            default:
+                return m.channel.send(`Not a valid bot request, type ${process.env.PREFIX}help for a list of valid commands.`)
+        }
+    }
 })
 
 
