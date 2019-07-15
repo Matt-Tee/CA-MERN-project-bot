@@ -1,4 +1,3 @@
-require('dotenv').config()
 const axios = require('axios');
 const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
 const Discord = require('discord.js');
@@ -16,7 +15,7 @@ http.createServer((req, res) => {
     });
     res.write('Hey');
     res.end();
-}).listen(4000);
+}).listen(process.env.PORT);
 
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
 // Otherwise the bot will check if the user is registered and if not register them.
