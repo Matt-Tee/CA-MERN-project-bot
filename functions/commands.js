@@ -3,11 +3,12 @@ const {axiosPost} = require('./axiosPost');
 const {axiosGet} = require('./axiosGet');
 const {axiosPatch} = require('./axiosPatch');
 
-module.exports = { commands: async (m) => {
+module.exports = { commands: async (m, client) => {
     // Seperating the user message into meaningful chunks 
     var mArray = m.content.split(" ");
     var mCommand = mArray[0].slice(1);
-    var mArguments = mArray.slice(1);
+    // Arguments for use in more advanced bot commands
+    // var mArguments = mArray.slice(1);
     var data = {};
     var dataTwo = {};
     var botResponse = new Discord.RichEmbed();
@@ -27,7 +28,7 @@ module.exports = { commands: async (m) => {
 
         case 'points':
             data = await axiosGet(m.author.id)
-            if (data.id) {
+            if (data.user_id) {
                 return m.channel.send(`${m.author.username}, you have ${data.points} points!`);
             }
             else {

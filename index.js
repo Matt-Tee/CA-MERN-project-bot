@@ -4,9 +4,7 @@ const client = new Discord.Client();
 // const express = require('express');
 // const app = express();
 const {commands} = require("./functions/commands");
-const {axiosPost} = require("./functions/axiosPost");
-const {axiosGet} = require("./functions/axiosGet");
-var user = {};
+const {userCheck} = require("./functions/userCheck");
 
 // app.listen(process.env.PORT);
 
@@ -16,21 +14,15 @@ client.on('ready', () => {
 })
 
 // User message processing. If a user types a message with the bot activation prefix the bot will respond.
-// Otherwise the bot will check if the user is registered and if not register them.
-client.on('message', m => {
+client.on('message', (m) => {
     if (m.author.bot) { return }
 
     if (!m.content.startsWith(process.env.PREFIX)) {
-        user = axiosGet(m.author.id)
-        if (!user.user_id) { 
-            user = axiosPost(m.author.id, m.author.username)
-            m.channel.send(`Congratulations ${res.data.username}! You have been noticed by ${client.user.username}.`)        
-        }   
-        return
+        userCheck(m, client.user.username)
     }
     else {
         // User input is a command and therefore must be handled by the commands function
-        commands(m);
+        commands(m, client);
     }
 })
 

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
 
+// Registers user in data base with a default of 1 point
 module.exports.axiosPost = async (id, username) => {
     const result = cctsAPI.post('/users', { user_id: id, username: username, points: 1 }).then(response => {
         return response.data
