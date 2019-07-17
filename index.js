@@ -32,14 +32,24 @@ client.on('message', (m) => {
 // When someone reacts to something, give the person that are reacting to some points
 client.on('messageReactionAdd', (reaction, reactor) => {
     if (reactor.bot||reaction.message.author.bot){return false}
-    point(reaction.message.author.id, reactor.id)
+    if (reaction.message.reactions.forEach((r) => {
+        r.users.has(reactor.id)
+    })){
+        return false
+    }
+    point(reaction.message.author.id, reactor.id);
     return true
 })
 
 // When someone unreacts to something, remove points from the person they were reacting to
 client.on('messageReactionRemove', (reaction, reactor) => {
     if (reactor.bot||reaction.message.author.bot){return false} 
-    unPoint(reaction.message.author.id, reactor.id)
+    if (reaction.message.reactions.forEach((r) => {
+        r.users.has(reactor.id)
+    })){
+        return false
+    }
+    unPoint(reaction.message.author.id, reactor.id);
     return true
 })
 
@@ -61,6 +71,8 @@ client.on('raw', packet => {
         if (reaction) reaction.users.set(packet.d.user_id, client.users.get(packet.d.user_id));
         // Checks if the reactor is registered and reigisters them if they are not
         userCheck(client.users.get(packet.d.user_id), client);
+        // Checks if the person being reacted to is registered and registers them if they are not
+        userCheck(message.author, client);
         // Assign message to reaction
         reaction.message = message;
         // Check which type of event it is before emitting
