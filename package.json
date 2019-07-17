@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
   "author": "Tee",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "axios": "^0.19.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jest": "^24.8.0"
   }
 }
