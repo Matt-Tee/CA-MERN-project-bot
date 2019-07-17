@@ -1,6 +1,5 @@
-const { axiosGet } = require('./axiosGet')
-const { axiosPost } = require('./axiosPost')
-const Discord = require('discord.js');
+const { axiosGet } = require('./axiosGet');
+const { axiosPost } = require('./axiosPost');
 
 // Checks if user exists in database and then registers them if they don't.
 module.exports.userCheck = async (author, client) => {

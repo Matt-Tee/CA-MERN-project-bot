@@ -22,10 +22,6 @@ module.exports = { commands: async (m, client) => {
                 .addField("Bot Name", client.user.username);
             return m.channel.send(botResponse);
 
-        case 'register':
-            data = await axiosPost(m.author.id, m.author.username)
-            return m.channel.send(`Congratulations ${data.username}! You have successfully registered for the community points program.`);
-
         case 'points':
             data = await axiosGet(m.author.id)
             if (data.user_id) {
@@ -49,10 +45,9 @@ module.exports = { commands: async (m, client) => {
             botResponse = new Discord.RichEmbed()
                 .setDescription('Valid Commands')
                 .setColor("#FFFFFF")
-                .addField(`${process.env.PREFIX}botinfo`, "Displays detailed information about the bot in use.")
-                .addField(`${process.env.PREFIX}points`, 'Displays the number of community contribution points acumulated.')
-                .addField(`${process.env.PREFIX}register`, 'Registers the user for community points program.')
-                .addField(`${process.env.PREFIX}update`, 'Updates the users name in the CCTS. Please use this if you have recently changed your name recently as the bot has a good memory and bad people skills.')
+                .addField(`${process.env.PREFIX}botinfo`, "Displays detailed information about the bot that is currently in use.")
+                .addField(`${process.env.PREFIX}points`, 'Displays the number of points you have acumulated.')
+                .addField(`${process.env.PREFIX}update`, 'Forces the bot to use your current username when refering to you. Please use this if you have recently changed your name recently as the bot has a good memory and bad people skills.')
                 .addField(`${process.env.PREFIX}help`, 'Displays this helpful little list of commands for the uninitiated.');
 
             return m.channel.send(botResponse);
