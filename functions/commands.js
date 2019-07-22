@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const {axiosPost} = require('./axiosPost');
 const {axiosGet} = require('./axiosGet');
 const {axiosPatch} = require('./axiosPatch');
 
@@ -47,7 +46,7 @@ module.exports = { commands: async (m, client) => {
                 .setColor("#FFFFFF")
                 .addField(`${process.env.PREFIX}botinfo`, "Displays detailed information about the bot that is currently in use.")
                 .addField(`${process.env.PREFIX}points`, 'Displays the number of points you have acumulated.')
-                .addField(`${process.env.PREFIX}update`, 'Forces the bot to use your current username when refering to you. Please use this if you have recently changed your name recently as the bot has a good memory and bad people skills.')
+                .addField(`${process.env.PREFIX}update`, 'Forces the bot to use your current username when refering to you. Please use this if you have changed your name recently as the bot has a good memory and bad people skills.')
                 .addField(`${process.env.PREFIX}help`, 'Displays this helpful little list of commands for the uninitiated.');
 
             return m.channel.send(botResponse);
