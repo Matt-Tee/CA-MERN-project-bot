@@ -1,14 +1,14 @@
-// require('dotenv').config();
+require('dotenv').config();
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const express = require('express');
 const app = express();
-const {commands} = require("./functions/commands");
-const {userCheck} = require("./functions/userCheck");
-const {point} = require("./functions/point");
-const {unPoint} = require("./functions/unPoint");
+const { commands } = require("./functions/commands");
+const { userCheck } = require("./functions/userCheck");
+const { point } = require("./functions/point");
+const { unPoint } = require("./functions/unPoint");
 
-// fake port listening to ensure that heroku lets the bot be hosted. CAN NOT DEPLOY WITHOUT THIS!
+// Fake port listening to ensure that heroku lets the bot be hosted. CAN NOT DEPLOY WITHOUT THIS!
 app.listen(process.env.PORT);
 
 // Bot fails to opperate before this ready acknowledgement
@@ -29,17 +29,45 @@ client.on('message', (m) => {
     }
 })
 
-// When someone reacts to something, give the person that are reacting to some points
+// When someone reacts to something, give them and the person that they are reacting to some points
 client.on('messageReactionAdd', (reaction, reactor) => {
-    if (reactor.bot||reaction.message.author.bot){return false}
-    point(reaction.message.author.id, reactor.id)
+    // Makes sure the users aren't bots
+    if (reactor.bot || reaction.message.author.bot) { return false }
+    // Makes sure the user hasn't already reacted to this messgae
+    let count = 0
+    if (reaction.message.reactions.forEach((r) => {
+        r.users.has(reactor.id)
+    })) { count += 1 }
+    if (count > 1) { return false }
+    // Checks if the reactor is registered and reigisters them if they are not
+    userCheck(reactor, client);
+    // Checks if the person being reacted to is registered and registers them if they are not
+    userCheck(reaction.message.author, client);
+    // Give the points
+    point(reactor.id, null)
+    point(reaction.message.author.id, reactor.id);
+    // Returns for testing purposes
     return true
 })
 
 // When someone unreacts to something, remove points from the person they were reacting to
 client.on('messageReactionRemove', (reaction, reactor) => {
-    if (reactor.bot||reaction.message.author.bot){return false} 
-    unPoint(reaction.message.author.id, reactor.id)
+    // Makes sure the users aren't bots
+    if (reactor.bot || reaction.message.author.bot) { return false }
+    // Makes sure the user hasn't already reacted to this message
+    if (reaction.message.reactions.forEach((r) => {
+        r.users.has(reactor.id)
+    })) {
+        return false
+    }
+    // Checks if the reactor is registered and reigisters them if they are not
+    userCheck(reactor, client);
+    // Checks if the person being reacted to is registered and registers them if they are not
+    userCheck(reaction.message.author, client);
+    // Take the points
+    unPoint(reactor.id, null)
+    unPoint(reaction.message.author.id, reactor.id);
+    // Returns for testing purposes
     return true
 })
 
@@ -59,9 +87,7 @@ client.on('raw', packet => {
         const reaction = message.reactions.get(emoji);
         // Adds the currently reacting user to the reaction's users collection.
         if (reaction) reaction.users.set(packet.d.user_id, client.users.get(packet.d.user_id));
-        // Checks if the reactor is registered and reigisters them if they are not
-        userCheck(client.users.get(packet.d.user_id), client);
-        // Assign message to reaction
+        // Assign message to reaction to bring them inline with cached reactions 
         reaction.message = message;
         // Check which type of event it is before emitting
         if (packet.t === 'MESSAGE_REACTION_ADD') {
