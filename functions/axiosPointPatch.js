@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// Updates user object in database.
+// Updates user object in database. Slightly different to the axiosPatch due to the configuration of the express API being used.
 module.exports.axiosPointPatch = async (id, userObject) => {
     axios({
         method: 'patch',

@@ -7,6 +7,7 @@ module.exports.userCheck = async (author, client) => {
     let user = await axiosGet(author.id)
     if (!user.user_id) {
         user = await axiosPost(author.id, author.username)
+        // Informs the user that they have been registered.
         client.users.get(author.id).send(`Congratulations ${user.username}! You have been noticed by ${client.user.username}.`)
     }
 }   

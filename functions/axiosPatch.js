@@ -20,5 +20,6 @@ module.exports.axiosPatch = async (id, userObject) => {
         }
         console.log(error.config);
     });
+    // Return the response data to confirm the update
     return result;
 }
