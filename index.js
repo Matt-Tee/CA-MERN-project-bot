@@ -11,7 +11,7 @@ const { unPoint } = require("./functions/unPoint");
 // Fake port listening to ensure that heroku lets the bot be hosted. CAN NOT DEPLOY WITHOUT THIS!
 app.listen(process.env.PORT);
 
-// Bot fails to opperate before this ready acknowledgement
+// Bot fails to operate before this ready acknowledgement
 client.on('ready', () => {
     console.log('Ready!');
 })
@@ -33,13 +33,15 @@ client.on('message', (m) => {
 client.on('messageReactionAdd', (reaction, reactor) => {
     // Makes sure the users aren't bots
     if (reactor.bot || reaction.message.author.bot) { return false }
-    // Makes sure the user hasn't already reacted to this messgae
+    // Makes sure the user hasn't already reacted to this message
     let count = 0
-    if (reaction.message.reactions.forEach((r) => {
-        r.users.has(reactor.id)
-    })) { count += 1 }
+    reaction.message.reactions.forEach((r) => {
+        if (r.users.has(reactor.id)) {
+            count += 1
+        }
+    })
     if (count > 1) { return false }
-    // Checks if the reactor is registered and reigisters them if they are not
+    // Checks if the reactor is registered and registers them if they are not
     userCheck(reactor, client);
     // Checks if the person being reacted to is registered and registers them if they are not
     userCheck(reaction.message.author, client);
@@ -55,12 +57,13 @@ client.on('messageReactionRemove', (reaction, reactor) => {
     // Makes sure the users aren't bots
     if (reactor.bot || reaction.message.author.bot) { return false }
     // Makes sure the user hasn't already reacted to this message
-    if (reaction.message.reactions.forEach((r) => {
-        r.users.has(reactor.id)
-    })) {
-        return false
-    }
-    // Checks if the reactor is registered and reigisters them if they are not
+    reaction.message.reactions.forEach((r) => {
+        if (r.users.has(reactor.id)) {
+            return false
+        }
+    })
+
+    // Checks if the reactor is registered and registers them if they are not
     userCheck(reactor, client);
     // Checks if the person being reacted to is registered and registers them if they are not
     userCheck(reaction.message.author, client);
