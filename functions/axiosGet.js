@@ -1,5 +1,13 @@
 const axios = require('axios');
-const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
+const jwt = require('jsonwebtoken')
+const cctsAPI = axios.create({
+    baseURL: 'https://stormy-tundra-35633.herokuapp.com/',
+    headers: {
+        common: {
+            Authorization: jwt.sign('authed', 'superSecretKey')
+        }
+    }
+});
 
 // Retrieves a user object from the database if one exists
 module.exports.axiosGet = async (id) => {
@@ -20,7 +28,7 @@ module.exports.axiosGet = async (id) => {
         }
         console.log(error.config);
         // Return an object for not found purposes
-        return { user_id: false}
+        return { user_id: false }
     });
     // Return the data from the response
     return result;

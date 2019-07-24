@@ -1,6 +1,13 @@
 const axios = require('axios');
-const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
-
+const jwt = require('jsonwebtoken')
+const cctsAPI = axios.create({
+    baseURL: 'https://stormy-tundra-35633.herokuapp.com/',
+    headers: {
+        common: {
+            Authorization: jwt.sign('authed', 'superSecretKey')
+        }
+    }
+});
 // Updates user object in database.
 module.exports.axiosPatch = async (id, userObject) => {
     const result = cctsAPI.patch(id, userObject).then(response => {

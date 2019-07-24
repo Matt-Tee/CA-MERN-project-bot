@@ -5,6 +5,11 @@ module.exports.axiosPointPatch = async (id, userObject) => {
     axios({
         method: 'patch',
         url: `https://stormy-tundra-35633.herokuapp.com/users/${id}/points`,
+        headers: {
+            common: {
+                Authorization: jwt.sign('authed', 'superSecretKey')
+            }
+        },
         data: userObject
     }).catch(function (error) {
         if (error.response) {

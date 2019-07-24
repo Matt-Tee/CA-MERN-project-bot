@@ -1,6 +1,13 @@
 const axios = require('axios');
-const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
-
+const jwt = require('jsonwebtoken')
+const cctsAPI = axios.create({
+    baseURL: 'https://stormy-tundra-35633.herokuapp.com/',
+    headers: {
+        common: {
+            Authorization: jwt.sign('authed', 'superSecretKey')
+        }
+    }
+});
 // Registers user in database with a default of 1 point
 module.exports.axiosPost = async (id, username) => {
     const result = cctsAPI.post('/users', { user_id: id, username: username, points: 1 }).then(response => {
