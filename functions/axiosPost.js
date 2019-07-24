@@ -1,6 +1,14 @@
+require('dotenv').config();
 const axios = require('axios');
-const cctsAPI = axios.create({ baseURL: 'https://stormy-tundra-35633.herokuapp.com/' });
-
+const jwt = require('jsonwebtoken')
+const cctsAPI = axios.create({
+    baseURL: process.env.EXPRESSURL,
+    headers: {
+        common: {
+            Authorization: jwt.sign({ authed: true }, 'superSecretKey')
+        }
+    }
+});
 // Registers user in database with a default of 1 point
 module.exports.axiosPost = async (id, username) => {
     const result = cctsAPI.post('/users', { user_id: id, username: username, points: 1 }).then(response => {

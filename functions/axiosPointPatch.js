@@ -1,10 +1,16 @@
+require('dotenv').config();
 const axios = require('axios');
 
 // Updates user object in database. Slightly different to the axiosPatch due to the configuration of the express API being used.
 module.exports.axiosPointPatch = async (id, userObject) => {
     axios({
         method: 'patch',
-        url: `https://stormy-tundra-35633.herokuapp.com/users/${id}/points`,
+        url: `${process.env.EXPRESSURL}/users/${id}/points`,
+        headers: {
+            common: {
+                Authorization: jwt.sign({ authed: true }, 'superSecretKey')
+            }
+        },
         data: userObject
     }).catch(function (error) {
         if (error.response) {
