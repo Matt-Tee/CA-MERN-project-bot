@@ -4,7 +4,7 @@ const cctsAPI = axios.create({
     baseURL: process.env.EXPRESSURL,
     headers: {
         common: {
-            Authorization: jwt.sign('authed', 'superSecretKey')
+            Authorization: jwt.sign({ authed: true }, 'superSecretKey')
         }
     }
 });

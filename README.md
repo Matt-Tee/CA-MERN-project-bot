@@ -62,10 +62,11 @@ Once installation is complete create a file called .env and put the following in
 ``` Text
 TOKEN="Your Bot Token"
 PREFIX="Your Prefix"
+EXPRESSURL="Your Server URL"
 ```
 
 Now to get your bot token you are going to have to first create a discord app and bot through the discord developer portal. It is pretty simple, just got to: <https://discordapp.com/developers/applications/>
-Log in with your discord account and create a new application. After that select the bot option on the side and create a bot for the application. Copy the bots secret token and replace the "Your Bot Token" with the secret one (no quotation marks). Replace the "Your Prefix" with a prefix of your choice for bot commands, a common one is to use '!' (wrap it in single quotation marks as it is required to be a string).
+Log in with your discord account and create a new application. After that select the bot option on the side and create a bot for the application. Copy the bots secret token and replace the "Your Bot Token" with the secret one (no quotation marks). Replace the "Your Prefix" with a prefix of your choice for bot commands, a common one is to use '!' (wrap it in single quotation marks as it is required to be a string). Replace "Your Server URL" with the url of the server you will be making requests to (make sure it is also wrapped in quotation marks as it is also required to be a string). It is recommended that you use an express server like the one mentioned in the tech stack section above.
 
 If you are deploying remotely just set environment variables to those values instead of making a .env file.
 

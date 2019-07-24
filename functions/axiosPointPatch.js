@@ -7,7 +7,7 @@ module.exports.axiosPointPatch = async (id, userObject) => {
         url: `${process.env.EXPRESSURL}/users/${id}/points`,
         headers: {
             common: {
-                Authorization: jwt.sign('authed', 'superSecretKey')
+                Authorization: jwt.sign({ authed: true }, 'superSecretKey')
             }
         },
         data: userObject
