@@ -1,7 +1,7 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken')
 const cctsAPI = axios.create({
-    baseURL: 'https://stormy-tundra-35633.herokuapp.com/',
+    baseURL: process.env.EXPRESSURL,
     headers: {
         common: {
             Authorization: jwt.sign('authed', 'superSecretKey')
