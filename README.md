@@ -1,5 +1,5 @@
 
-# Greenbot
+# Community Contribution Tracking Bot
 
 ## Overview
 
