@@ -1,5 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
+const jwt = require('jsonwebtoken')
+
 
 // Updates user object in database. Slightly different to the axiosPatch due to the configuration of the express API being used.
 module.exports.axiosPointPatch = async (id, userObject) => {
