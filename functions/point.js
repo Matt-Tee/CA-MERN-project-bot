@@ -17,7 +17,7 @@ module.exports.point = async (id, giverId) => {
     // Calculate how many points a react from the giver is worth
     let receiverPoints = pointCalculator(giver.points)
     // Give the receiver the points they deserve
-    axiosPointPatch(id, { points: receiverPoints }, giverId)
+    axiosPointPatch(id, receiverPoints, giverId)
     // Return true for testing purposes
     return true
 }
