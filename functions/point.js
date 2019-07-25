@@ -8,7 +8,7 @@ module.exports.point = async (id, giverId) => {
     if (id == giverId) return false;
     // A simple way to call the same function for a different result. If we want to give the reactor a point for reacting we just pass the giverId as null
     if (giverId == null) {
-        axiosPointPatch(id, { points: 1 })
+        axiosPointPatch(id, { points: 1 }, 0)
         // Return true for testing purposes.
         return true
     }
@@ -17,7 +17,7 @@ module.exports.point = async (id, giverId) => {
     // Calculate how many points a react from the giver is worth
     let receiverPoints = pointCalculator(giver.points)
     // Give the receiver the points they deserve
-    axiosPointPatch(id, { points: receiverPoints })
+    axiosPointPatch(id, { points: receiverPoints }, giverId)
     // Return true for testing purposes
     return true
 }

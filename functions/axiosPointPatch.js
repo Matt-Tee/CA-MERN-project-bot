@@ -1,8 +1,10 @@
 require('dotenv').config();
 const axios = require('axios');
+const jwt = require('jsonwebtoken')
+
 
 // Updates user object in database. Slightly different to the axiosPatch due to the configuration of the express API being used.
-module.exports.axiosPointPatch = async (id, userObject) => {
+module.exports.axiosPointPatch = async (id, userObject, reactorId) => {
     axios({
         method: 'patch',
         url: `${process.env.EXPRESSURL}/users/${id}/points`,
@@ -11,7 +13,7 @@ module.exports.axiosPointPatch = async (id, userObject) => {
                 Authorization: jwt.sign({ authed: true }, 'superSecretKey')
             }
         },
-        data: userObject
+        data: {author: userObject, reactor: reactorId}
     }).catch(function (error) {
         if (error.response) {
             // The request was made and the server responded with a status code
