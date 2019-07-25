@@ -8,7 +8,7 @@ module.exports.unPoint = async (id, takerId) => {
     if (id == takerId){return false}
     // Taking back the points the reactor got for reacting
     if (takerId == null) {
-        axiosPointPatch(id, { points: -1 }, 0)
+        axiosPointPatch(id, -1, 0)
         // Return true for testing purposes
         return true
     }
