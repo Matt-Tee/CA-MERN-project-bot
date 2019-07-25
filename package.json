@@ -1,5 +1,5 @@
 {
-  "name": "green-bot",
+  "name": "cct-bot",
   "version": "1.0.0",
   "description": "A Discord bot designed to be use in conjunction with a MERN stack application. The bot monitors user interactions on a discord server and awards points to users based on their community engagement",
   "main": "index.js",

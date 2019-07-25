@@ -8,7 +8,7 @@ module.exports.unPoint = async (id, takerId) => {
     if (id == takerId){return false}
     // Taking back the points the reactor got for reacting
     if (takerId == null) {
-        axiosPointPatch(id, { points: -1 })
+        axiosPointPatch(id, { points: -1 }, 0)
         // Return true for testing purposes
         return true
     }
@@ -17,7 +17,7 @@ module.exports.unPoint = async (id, takerId) => {
     // Calculate how many points should be taken
     let losersPoints = (-1 * pointCalculator(taker.points));
     // Take the points
-    axiosPointPatch(id, { points: losersPoints })
+    axiosPointPatch(id, { points: losersPoints }, takerId)
     // Return true for testing purposes
     return true
 }
